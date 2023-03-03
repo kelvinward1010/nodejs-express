@@ -10,6 +10,6 @@ router.put('/update-post-follow-user/:id', updatePost);
 router.delete('/delete-post/:id', deletePostAnyWay);
 router.delete('/delete-post-follow-user/:id', deletePost);
 router.get('/post/:id', getPost);
-router.get('/allpost', getAllPost)
+router.get('/allpost', getAllPost);
 
 module.exports = router;

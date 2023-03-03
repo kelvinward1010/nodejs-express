@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const authRoute = require('./routes/auth-route');
 const postRoute = require('./routes/post-route');
+const userRoute = require('./routes/user-route');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
 
@@ -27,6 +28,7 @@ app.use(cookieParser());
 
 app.use('/api/auth', authRoute);
 app.use('/api/posts', postRoute);
+app.use('/api/users', userRoute);
 
 
 app.use((err, req, res, next) => {
