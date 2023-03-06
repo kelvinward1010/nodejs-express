@@ -1,12 +1,13 @@
 const express = require('express');
-const { updateUserAnyWay } = require('../controllers/user');
+const { updateUserAnyWay, updateFollowUser } = require('../controllers/user');
+const { verifyToken } = require('../middleware/jwt');
 
 
 const router = express.Router()
 
 
-router.put('/update-user-anyway', updateUserAnyWay)
-
+router.put('/update-user-anyway/:id', updateUserAnyWay)
+//router.put('/update-follow-user/:id', updateFollowUser)
 
 
 module.exports = router

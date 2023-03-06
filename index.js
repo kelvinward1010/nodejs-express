@@ -6,6 +6,8 @@ const postRoute = require('./routes/post-route');
 const userRoute = require('./routes/user-route');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
+const multer = require('multer');
+const path = require('path');
 
 
 const app = express();
@@ -25,8 +27,27 @@ app.use(cors());
 app.use(express.json());
 app.use(cookieParser());
 
+const storage = multer.diskStorage({
+    destination:(req,file,cb) => {
+        cb(null,'image')
+    },
+    filename:(req,file,cb) => {
+        cb(null, req.body.name)
+    }
+})
 
-app.use('/api/auth', authRoute);
+app.use('images', express.static(path.join(__dirname, "images")));
+
+const upload = multer({storage: storage});
+app.post("/api/upload", upload.single("file"), (req, res, next)=> {
+    try {
+        res.status(200).json("File has been upload")
+    } catch (error) {
+        next(error)
+    }
+})
+
+app.use('/api/auth',  authRoute);
 app.use('/api/posts', postRoute);
 app.use('/api/users', userRoute);
 
