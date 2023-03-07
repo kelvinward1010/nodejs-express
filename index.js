@@ -12,7 +12,11 @@ const path = require('path');
 
 const app = express();
 dotenv.config();
-mongoose.set('strictQuery', true)
+mongoose.set('strictQuery', true);
+app.use(cors());
+app.use(express.json());
+app.use(cookieParser());
+app.use('/images', express.static('images'));
 
 const connect = async () => {
     try {
@@ -23,28 +27,20 @@ const connect = async () => {
     }
 }
 
-app.use(cors());
-app.use(express.json());
-app.use(cookieParser());
-
 const storage = multer.diskStorage({
     destination:(req,file,cb) => {
-        cb(null,'image')
+        cb(null,'images')
     },
     filename:(req,file,cb) => {
         cb(null, req.body.name)
     }
 })
 
-app.use('images', express.static(path.join(__dirname, "images")));
+app.use('images', express.static(path.join(__dirname, "/images")));
 
 const upload = multer({storage: storage});
 app.post("/api/upload", upload.single("file"), (req, res, next)=> {
-    try {
-        res.status(200).json("File has been upload")
-    } catch (error) {
-        next(error)
-    }
+    res.status(200).json("File has been upload")
 })
 
 app.use('/api/auth',  authRoute);
