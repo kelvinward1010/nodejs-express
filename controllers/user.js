@@ -4,7 +4,6 @@ const User = require('../models/user-model');
 
 // Update user anyway
 const updateUserAnyWay = async (req, res, next) => {
-    console.log(req)
     try {
         const updatedUser = User.findByIdAndUpdate(req.params.id, {
             $set: req.body,
@@ -37,8 +36,29 @@ const updateFollowUser = async (req, res, next) => {
     }
 }
 
+const getUserById = async (req,res, next) => {
+    try {
+        const user = await User.findById(req.params.id)
+        const {password,...others} = user._doc;
+        res.status(200).json(others)
+    } catch (error) {
+        res.status(500).json(error)
+        next(error)
+    }
+}
+
+const getUsers = async (req, res, next) => {
+    try {
+        const users = await User.find();
+        res.status(200).json(users);
+    } catch (error) {
+        next(error)
+    }
+}
 
 module.exports = {
     updateUserAnyWay,
     updateFollowUser,
+    getUserById,
+    getUsers,
 }
