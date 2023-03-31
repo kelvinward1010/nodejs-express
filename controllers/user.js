@@ -1,18 +1,20 @@
-const { verifyToken } = require('../middleware/jwt');
 const User = require('../models/user-model');
+const bcrypt = require('bcrypt');
 
 
 // Update user anyway
-const updateUserAnyWay = async (req, res, next) => {
+const updateUserAnyWay = async (req, res) => {
+
     try {
-        const updatedUser = User.findByIdAndUpdate(req.params.id, {
-            $set: req.body,
-        }, {new: true});
-        res.status(200).json(updatedUser)
-    } catch (error) {
-        res.status(500).json(error)
-        next(error)
-    }
+        const updatedUser = await User.findByIdAndUpdate(
+          req.params.id,
+          { $set: req.body },
+          { new: true }
+        );
+        res.status(200).json(updatedUser);
+      } catch (err) {
+        next(err);
+      }
 }
 
 

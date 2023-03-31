@@ -55,7 +55,6 @@ app.use((err, req, res, next) => {
     return res.status(errorStatus).send(errorMessage);
 });
 
-
 app.listen(9999, () => {
     connect();
     console.log("Backend server is running!");
